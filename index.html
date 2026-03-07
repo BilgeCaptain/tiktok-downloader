@@ -14,7 +14,6 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #F8FAFC; }
-        .expert-badge { background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); }
         .hidden { display: none !important; }
     </style>
 </head>
@@ -23,27 +22,27 @@
     <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200">
         <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-black rounded-xl flex items-center justify-center shadow-lg shadow-black/20">
-                    <span class="text-white font-black text-xl italic">E</span>
+                <div class="w-10 h-10 bg-black rounded-xl flex items-center justify-center shadow-lg">
+                    <span class="text-white font-black text-xl italic text-center">E</span>
                 </div>
                 <h1 class="text-2xl font-800 tracking-tighter uppercase italic">EMRE <span class="text-slate-400">GRG</span></h1>
             </div>
             
-            <div id="navButtons">
+            <div id="navMenu">
                 <div id="guestMenu">
-                    <button onclick="toggleAuthModal()" class="bg-black text-white px-6 py-2.5 rounded-2xl font-bold hover:scale-105 transition">Giriş Yap</button>
+                    <button onclick="toggleAuth()" class="bg-black text-white px-6 py-2.5 rounded-2xl font-bold">Giriş Yap</button>
                 </div>
                 <div id="userMenu" class="hidden flex items-center gap-4">
-                    <button onclick="toggleAdModal()" class="bg-blue-600 text-white px-6 py-2.5 rounded-2xl font-bold shadow-lg">İlan Ver</button>
-                    <button onclick="logout()" class="text-red-500 font-bold ml-2 transition hover:text-red-700">Çıkış</button>
+                    <button onclick="toggleAd()" class="bg-blue-600 text-white px-6 py-2.5 rounded-2xl font-bold shadow-lg">İlan Ver</button>
+                    <button onclick="logout()" class="text-red-500 font-bold ml-2">Çıkış</button>
                 </div>
             </div>
         </div>
     </nav>
 
     <main class="max-w-7xl mx-auto px-6 py-12">
-        <div id="ilanListesi" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <p id="loading" class="col-span-full text-center text-slate-400 font-medium">İlanlar yükleniyor...</p>
+        <div id="ilanListesi" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-center">
+            <p id="loading" class="col-span-full text-slate-400">Veriler yükleniyor...</p>
         </div>
     </main>
 
@@ -51,34 +50,33 @@
         <div class="bg-white w-full max-w-sm rounded-[2.5rem] p-8 shadow-2xl">
             <h2 class="text-2xl font-900 mb-6 italic text-center uppercase">EMRE GRG PANEL</h2>
             <div class="space-y-4">
-                <input type="email" id="email" placeholder="E-posta" class="w-full bg-slate-50 p-4 rounded-2xl ring-1 ring-slate-200 outline-none focus:ring-black">
-                <input type="password" id="password" placeholder="Şifre" class="w-full bg-slate-50 p-4 rounded-2xl ring-1 ring-slate-200 outline-none focus:ring-black">
+                <input type="email" id="email" placeholder="E-posta" class="w-full bg-slate-50 p-4 rounded-2xl ring-1 ring-slate-200 outline-none">
+                <input type="password" id="password" placeholder="Şifre" class="w-full bg-slate-50 p-4 rounded-2xl ring-1 ring-slate-200 outline-none">
                 <div class="grid grid-cols-2 gap-3 pt-2">
                     <button onclick="handleAuth('login')" class="bg-black text-white py-4 rounded-2xl font-bold uppercase text-xs">Giriş</button>
                     <button onclick="handleAuth('register')" class="bg-slate-100 text-slate-600 py-4 rounded-2xl font-bold uppercase text-xs">Kayıt Ol</button>
                 </div>
-                <button onclick="toggleAuthModal()" class="w-full text-slate-300 text-[10px] uppercase font-black tracking-widest mt-4">Kapat</button>
+                <button onclick="toggleAuth()" class="w-full text-slate-300 text-[10px] mt-4 uppercase">Kapat</button>
             </div>
         </div>
     </div>
 
     <div id="adModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[150] hidden flex items-center justify-center p-4">
         <div class="bg-white w-full max-w-2xl rounded-[2.5rem] p-10 shadow-2xl max-h-[90vh] overflow-y-auto">
-            <h3 class="text-2xl font-900 mb-8 italic uppercase border-b pb-4 text-black">Yeni İlan Ekle</h3>
+            <h3 class="text-2xl font-900 mb-8 italic uppercase border-b pb-4">Yeni İlan</h3>
             <form id="adForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <input type="text" id="title" placeholder="İlan Başlığı" class="md:col-span-2 bg-slate-50 p-4 rounded-2xl outline-none ring-1 ring-slate-200 focus:ring-black" required>
-                <input type="number" id="price" placeholder="Fiyat (TL)" class="bg-slate-50 p-4 rounded-2xl outline-none ring-1 ring-slate-200 focus:ring-black" required>
-                <input type="text" id="brand" placeholder="Marka" class="bg-slate-50 p-4 rounded-2xl outline-none ring-1 ring-slate-200 focus:ring-black" required>
-                <input type="number" id="year" placeholder="Model Yılı" class="bg-slate-50 p-4 rounded-2xl outline-none ring-1 ring-slate-200 focus:ring-black" required>
-                <input type="text" id="img" placeholder="Araç Resim Linki (URL)" class="md:col-span-2 bg-slate-50 p-4 rounded-2xl outline-none ring-1 ring-slate-200 focus:ring-black" required>
-                <button type="submit" class="md:col-span-2 bg-black text-white py-5 rounded-2xl font-800 uppercase tracking-widest mt-4 shadow-xl hover:bg-slate-900 transition">İlanı Yayınla</button>
-                <button type="button" onclick="toggleAdModal()" class="md:col-span-2 text-slate-400 font-bold text-[10px] uppercase">Vazgeç</button>
+                <input type="text" id="title" placeholder="Başlık" class="md:col-span-2 bg-slate-50 p-4 rounded-2xl outline-none ring-1 ring-slate-200" required>
+                <input type="number" id="price" placeholder="Fiyat (TL)" class="bg-slate-50 p-4 rounded-2xl outline-none ring-1 ring-slate-200" required>
+                <input type="text" id="brand" placeholder="Marka" class="bg-slate-50 p-4 rounded-2xl outline-none ring-1 ring-slate-200" required>
+                <input type="text" id="img" placeholder="Resim URL" class="md:col-span-2 bg-slate-50 p-4 rounded-2xl outline-none ring-1 ring-slate-200" required>
+                <button type="submit" class="md:col-span-2 bg-black text-white py-5 rounded-2xl font-800 uppercase shadow-xl mt-4">Paylaş</button>
+                <button type="button" onclick="toggleAd()" class="md:col-span-2 text-slate-400 font-bold text-[10px] uppercase">Vazgeç</button>
             </form>
         </div>
     </div>
 
     <script>
-        // --- SENİN FIREBASE BİLGİLERİN (Hatasız) ---
+        // Görsellerinden Doğrulanan Firebase Bilgileri
         const firebaseConfig = {
             apiKey: "AIzaSyDEVAVvSpcZUY_q01g4c91Ky1cNyTJiz3A",
             authDomain: "emre-grg-eb1fe.firebaseapp.com",
@@ -88,112 +86,71 @@
             appId: "1:366106095449:web:7f1029c55c0ecc7159e648"
         };
         
-        // Firebase Başlatma
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        // --- FONKSİYONLAR ---
+        // Fonksiyonlar
+        function toggleAuth() { document.getElementById('authModal').classList.toggle('hidden'); }
+        function toggleAd() { document.getElementById('adModal').classList.toggle('hidden'); }
 
-        // Modal aç-kapat
-        function toggleAuthModal() {
-            const modal = document.getElementById('authModal');
-            modal.classList.toggle('hidden');
-        }
-
-        function toggleAdModal() {
-            const modal = document.getElementById('adModal');
-            modal.classList.toggle('hidden');
-        }
-
-        // Giriş ve Kayıt İşlemleri
         function handleAuth(type) {
             const email = document.getElementById('email').value;
             const pass = document.getElementById('password').value;
-            
-            if(!email || !pass) return alert("E-posta ve şifre girin!");
+            if(!email || !pass) return alert("Alanları doldurun!");
 
             if(type === 'register') {
                 auth.createUserWithEmailAndPassword(email, pass)
-                    .then(() => { alert("Kayıt Başarılı!"); toggleAuthModal(); })
-                    .catch(err => alert("Kayıt Hatası: " + err.message));
+                    .then(() => { alert("Kayıt Başarılı!"); toggleAuth(); })
+                    .catch(e => alert("Hata: " + e.message));
             } else {
                 auth.signInWithEmailAndPassword(email, pass)
-                    .then(() => { toggleAuthModal(); })
-                    .catch(err => alert("Giriş Hatası: " + err.message));
+                    .then(() => toggleAuth())
+                    .catch(e => alert("Hata: " + e.message));
             }
         }
 
-        function logout() {
-            auth.signOut();
-        }
+        function logout() { auth.signOut(); }
 
-        // Kullanıcı Durum Takibi
         auth.onAuthStateChanged(user => {
-            const guestMenu = document.getElementById('guestMenu');
-            const userMenu = document.getElementById('userMenu');
-            
-            if(user) {
-                guestMenu.classList.add('hidden');
-                userMenu.classList.remove('hidden');
-            } else {
-                guestMenu.classList.remove('hidden');
-                userMenu.classList.add('hidden');
-            }
-            fetchAds(); // Sayfayı her durumda güncelle
+            document.getElementById('guestMenu').classList.toggle('hidden', !!user);
+            document.getElementById('userMenu').classList.toggle('hidden', !user);
+            fetchAds();
         });
 
-        // Veritabanından İlanları Çek
         function fetchAds() {
-            db.collection("ilanlar").orderBy("createdAt", "desc").onSnapshot(snapshot => {
+            db.collection("ilanlar").orderBy("createdAt", "desc").onSnapshot(snap => {
                 const list = document.getElementById('ilanListesi');
                 list.innerHTML = "";
-                
-                if(snapshot.empty) {
-                    list.innerHTML = "<p class='col-span-full text-center text-slate-400'>Henüz ilan bulunmuyor.</p>";
-                    return;
-                }
-
-                snapshot.forEach(doc => {
+                if(snap.empty) list.innerHTML = "<p class='col-span-full'>Henüz ilan yok.</p>";
+                snap.forEach(doc => {
                     const data = doc.data();
                     list.innerHTML += `
-                        <div class="bg-white rounded-[2.5rem] overflow-hidden shadow-sm border border-slate-100 p-2 group hover:shadow-2xl transition-all duration-500">
-                            <div class="relative h-56 overflow-hidden rounded-[2rem]">
-                                <img src="${data.img}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
-                                <div class="absolute top-4 right-4 expert-badge text-white text-[10px] font-black px-3 py-1.5 rounded-full uppercase tracking-widest shadow-lg italic">Eksper Onaylı</div>
+                        <div class="bg-white rounded-[2rem] overflow-hidden shadow-sm border border-slate-100 p-2 group hover:shadow-xl transition-all">
+                            <img src="${data.img}" class="w-full h-48 object-cover rounded-[1.5rem]">
+                            <div class="p-6 text-left">
+                                <h3 class="font-bold text-lg">${data.title}</h3>
+                                <p class="text-slate-400 text-xs uppercase font-bold">${data.brand}</p>
+                                <p class="text-xl font-black mt-2">₺${Number(data.price).toLocaleString()}</p>
                             </div>
-                            <div class="p-6">
-                                <h3 class="font-800 text-xl text-black mb-1 italic uppercase tracking-tighter">${data.title}</h3>
-                                <p class="text-slate-400 text-xs font-bold uppercase mb-4">${data.brand} • ${data.year}</p>
-                                <div class="flex justify-between items-center border-t pt-4">
-                                    <span class="text-2xl font-900 text-black italic">₺${Number(data.price).toLocaleString()}</span>
-                                    <button class="bg-slate-50 text-black px-4 py-2 rounded-xl font-bold text-xs uppercase hover:bg-black hover:text-white transition">Detay</button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
+                        </div>`;
                 });
             });
         }
 
-        // Yeni İlan Gönder
         document.getElementById('adForm').onsubmit = (e) => {
             e.preventDefault();
-            const newAd = {
+            db.collection("ilanlar").add({
                 title: document.getElementById('title').value,
                 price: document.getElementById('price').value,
                 brand: document.getElementById('brand').value,
-                year: document.getElementById('year').value,
                 img: document.getElementById('img').value,
-                uid: auth.currentUser.uid,
                 createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            };
-
-            db.collection("ilanlar").add(newAd).then(() => {
-                alert("İlanınız yayına alındı!");
-                toggleAdModal();
+            }).then(() => {
+                alert("İlan eklendi!");
+                toggleAd();
                 document.getElementById('adForm').reset();
-            }).catch(err => alert("İlan eklenemedi: " + err.message));
+            });
         };
     </script>
 </body>
