@@ -3,84 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EMRE GRG | Modern İlan Platformu</title>
+    <title>EMRE GRG | Premium Araç Platformu</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        .glass-card { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; letter-spacing: -0.02em; }
+        .custom-scroll::-webkit-scrollbar { width: 5px; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .expert-badge { background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); }
     </style>
 </head>
-<body class="bg-[#F8FAFC] min-h-screen">
+<body class="bg-[#F8FAFC] min-h-screen text-slate-900">
 
-    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
-        <div class="max-w-6xl mx-auto px-4 h-20 flex justify-between items-center">
-            <div class="flex items-center gap-2">
-                <div class="w-10 h-10 bg-black rounded-xl flex items-center justify-center">
-                    <span class="text-white font-black text-xl">E</span>
+    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-11 h-11 bg-black rounded-2xl flex items-center justify-center rotate-3 shadow-lg shadow-black/20">
+                    <span class="text-white font-black text-xl -rotate-3">E</span>
                 </div>
-                <h1 class="text-2xl font-800 tracking-tighter text-gray-900 uppercase">EMRE <span class="text-gray-400">GRG</span></h1>
+                <h1 class="text-2xl font-800 tracking-tighter uppercase italic">EMRE <span class="text-slate-400 font-600">GRG</span></h1>
             </div>
             
-            <button onclick="toggleModal()" class="bg-black text-white px-6 py-3 rounded-2xl font-bold hover:bg-gray-800 transition-all shadow-xl shadow-black/10 flex items-center gap-2">
-                <i class="fa-solid fa-plus text-sm"></i> İlan Paylaş
+            <button onclick="toggleModal()" class="bg-black text-white px-8 py-3.5 rounded-2xl font-bold hover:bg-slate-800 transition-all shadow-xl shadow-black/10 flex items-center gap-2 active:scale-95">
+                <i class="fa-solid fa-file-signature text-sm"></i> İlan Yayınla
             </button>
         </div>
     </nav>
 
-    <header class="max-w-6xl mx-auto px-4 py-12 text-center">
-        <h2 class="text-4xl md:text-5xl font-800 text-gray-900 mb-4 tracking-tight">Aradığın Her Şey Burada.</h2>
-        <p class="text-gray-500 text-lg">Emre GRG güvencesiyle ilanlarını özgürce paylaş.</p>
-    </header>
-
-    <main class="max-w-6xl mx-auto px-4 pb-20">
-        <div id="ilanListesi" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <main class="max-w-7xl mx-auto px-6 py-12">
+        <div id="ilanListesi" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
             </div>
 
-        <div id="emptyState" class="hidden flex flex-col items-center justify-center py-20 opacity-40">
-            <i class="fa-solid fa-layer-group text-6xl mb-4"></i>
-            <p class="text-xl font-semibold">Henüz hiç ilan yok.</p>
+        <div id="emptyState" class="hidden flex flex-col items-center justify-center py-32 text-slate-300">
+            <i class="fa-solid fa-shield-car text-7xl mb-6"></i>
+            <p class="text-2xl font-bold italic text-slate-400">Vitrinde araç bulunamadı.</p>
         </div>
     </main>
 
-    <div id="modal" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-lg rounded-[2.5rem] p-8 shadow-2xl relative">
-            <button onclick="toggleModal()" class="absolute top-6 right-6 text-gray-400 hover:text-black transition text-2xl">
-                <i class="fa-solid fa-xmark"></i>
+    <div id="modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-2xl rounded-[3rem] p-10 shadow-2xl relative max-h-[90vh] overflow-y-auto custom-scroll">
+            <button onclick="toggleModal()" class="absolute top-8 right-8 text-slate-400 hover:text-black transition text-2xl">
+                <i class="fa-solid fa-circle-xmark"></i>
             </button>
             
-            <h3 class="text-2xl font-bold mb-6 italic text-gray-800 underline decoration-black decoration-4 underline-offset-8">Yeni İlan Oluştur</h3>
+            <h3 class="text-3xl font-800 mb-2 text-slate-900 italic uppercase">Araç Kayıt Formu</h3>
+            <p class="text-slate-400 mb-8 font-semibold">Lütfen teknik detayları eksiksiz giriniz.</p>
             
-            <form id="adForm" class="space-y-4">
-                <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Başlık</label>
-                    <input type="text" id="title" placeholder="Örn: 2024 Model iPhone" class="w-full bg-gray-50 border-0 p-4 rounded-2xl focus:ring-2 focus:ring-black outline-none transition" required>
-                </div>
-                <div class="grid grid-cols-2 gap-4">
+            <form id="adForm" class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label class="block text-sm font-bold text-gray-700 mb-2">Fiyat (TL)</label>
-                        <input type="number" id="price" placeholder="50.000" class="w-full bg-gray-50 border-0 p-4 rounded-2xl focus:ring-2 focus:ring-black outline-none transition" required>
+                        <label class="block text-xs font-800 uppercase text-slate-500 mb-2 px-1 underline underline-offset-4">İlan Başlığı</label>
+                        <input type="text" id="title" placeholder="Örn: Hatasız BMW M4" class="w-full bg-slate-50 border border-slate-200 p-4 rounded-2xl focus:ring-2 focus:ring-black outline-none transition font-semibold" required>
                     </div>
                     <div>
-                        <label class="block text-sm font-bold text-gray-700 mb-2">Resim URL</label>
-                        <input type="text" id="img" placeholder="https://..." class="w-full bg-gray-50 border-0 p-4 rounded-2xl focus:ring-2 focus:ring-black outline-none transition" required>
+                        <label class="block text-xs font-800 uppercase text-slate-500 mb-2 px-1 underline underline-offset-4">Fiyat (TL)</label>
+                        <input type="number" id="price" placeholder="4.500.000" class="w-full bg-slate-50 border border-slate-200 p-4 rounded-2xl focus:ring-2 focus:ring-black outline-none transition font-bold" required>
                     </div>
                 </div>
-                <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Açıklama</label>
-                    <textarea id="desc" placeholder="Ürün durumu, garanti vs..." class="w-full bg-gray-50 border-0 p-4 rounded-2xl h-32 focus:ring-2 focus:ring-black outline-none transition resize-none"></textarea>
+
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 bg-slate-900 p-6 rounded-[2rem]">
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-900 text-slate-400 tracking-widest uppercase">Marka</label>
+                        <input type="text" id="brand" class="w-full bg-white/10 border-0 p-3 rounded-xl text-white text-sm outline-none focus:ring-1 focus:ring-white" required>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-900 text-slate-400 tracking-widest uppercase">Yıl</label>
+                        <input type="number" id="year" class="w-full bg-white/10 border-0 p-3 rounded-xl text-white text-sm outline-none focus:ring-1 focus:ring-white" required>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-900 text-slate-400 tracking-widest uppercase">KM</label>
+                        <input type="number" id="km" class="w-full bg-white/10 border-0 p-3 rounded-xl text-white text-sm outline-none focus:ring-1 focus:ring-white" required>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-900 text-slate-400 tracking-widest uppercase">Beygir</label>
+                        <input type="number" id="hp" class="w-full bg-white/10 border-0 p-3 rounded-xl text-white text-sm outline-none focus:ring-1 focus:ring-white" required>
+                    </div>
+                    <div class="space-y-1 col-span-2">
+                        <label class="text-[10px] font-900 text-slate-400 tracking-widest uppercase">Model Tam Adı</label>
+                        <input type="text" id="modelName" class="w-full bg-white/10 border-0 p-3 rounded-xl text-white text-sm outline-none focus:ring-1 focus:ring-white" required>
+                    </div>
                 </div>
-                
-                <button type="submit" class="w-full bg-black text-white py-4 rounded-2xl font-bold text-lg hover:bg-gray-800 transition-all shadow-lg">
-                    İlanı Yayınla
+
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-800 uppercase text-slate-500 mb-2 px-1 italic">Görsel URL</label>
+                        <input type="text" id="img" placeholder="https://..." class="w-full bg-slate-50 border border-slate-200 p-4 rounded-2xl focus:ring-2 focus:ring-black outline-none transition" required>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-800 uppercase text-green-600 mb-2 px-1 italic flex items-center gap-2">
+                            <i class="fa-solid fa-file-pdf"></i> Ekspertiz Raporu Linki (Opsiyonel)
+                        </label>
+                        <input type="text" id="expertReport" placeholder="PDF veya Dosya Linki" class="w-full bg-green-50/50 border border-green-200 p-4 rounded-2xl focus:ring-2 focus:ring-green-500 outline-none transition font-medium">
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-black text-white py-5 rounded-3xl font-800 text-lg hover:bg-slate-800 transition-all shadow-2xl shadow-black/30 uppercase tracking-[0.2em]">
+                    İlanı Onayla ve Paylaş
                 </button>
             </form>
         </div>
     </div>
 
     <script>
-        let ads = JSON.parse(localStorage.getItem('emreGrgAds')) || [];
+        let ads = JSON.parse(localStorage.getItem('emreGrgPro')) || [];
 
         function toggleModal() {
             document.getElementById('modal').classList.toggle('hidden');
@@ -96,18 +122,47 @@
             } else {
                 empty.classList.add('hidden');
                 ads.forEach((ad, index) => {
+                    const hasExpert = ad.expertReport && ad.expertReport.trim() !== "";
+                    
                     container.innerHTML += `
-                        <div class="bg-white rounded-[2rem] overflow-hidden border border-gray-100 hover:shadow-2xl transition-all duration-500 group">
-                            <div class="relative overflow-hidden h-64">
-                                <img src="${ad.img}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" onerror="this.src='https://images.unsplash.com/photo-1560393464-5c69a73c5770?auto=format&fit=crop&q=80&w=500'">
-                                <div class="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold shadow-sm italic">EMRE GRG EXCLUSIVE</div>
+                        <div class="bg-white rounded-[3rem] overflow-hidden border border-slate-200 hover:shadow-2xl transition-all duration-500 group relative flex flex-col h-full">
+                            <div class="relative h-64 overflow-hidden">
+                                <img src="${ad.img}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                                ${hasExpert ? `
+                                <div class="expert-badge absolute top-6 left-6 text-white text-[10px] font-900 px-4 py-2 rounded-full shadow-lg flex items-center gap-2">
+                                    <i class="fa-solid fa-shield-check"></i> EKSPERTİZ ONAYLI
+                                </div>` : ''}
+                                <div class="absolute bottom-4 right-6 bg-white/90 backdrop-blur px-4 py-1.5 rounded-2xl text-[12px] font-900 shadow-sm border border-slate-100">
+                                    ${ad.year}
+                                </div>
                             </div>
-                            <div class="p-6">
-                                <h4 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-gray-600 transition">${ad.title}</h4>
-                                <p class="text-gray-400 text-sm line-clamp-2 mb-4">${ad.desc}</p>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-2xl font-black text-black tracking-tight">${Number(ad.price).toLocaleString()} ₺</span>
-                                    <button onclick="deleteAd(${index})" class="text-red-400 hover:text-red-600 transition text-sm font-bold">SİL</button>
+
+                            <div class="p-8 flex flex-col flex-grow">
+                                <div class="mb-4">
+                                    <span class="text-[10px] font-900 text-blue-600 uppercase tracking-widest">${ad.brand}</span>
+                                    <h3 class="text-xl font-800 text-slate-900 tracking-tight leading-tight">${ad.title}</h3>
+                                    <p class="text-slate-400 text-xs font-bold mt-1 uppercase">${ad.modelName}</p>
+                                </div>
+
+                                <div class="grid grid-cols-3 gap-2 py-4 border-y border-slate-50 mb-6">
+                                    <div class="text-center"><p class="text-[9px] font-black text-slate-300 uppercase">Km</p><p class="text-sm font-800">${Number(ad.km).toLocaleString()}</p></div>
+                                    <div class="text-center border-x border-slate-50"><p class="text-[9px] font-black text-slate-300 uppercase">HP</p><p class="text-sm font-800">${ad.hp}</p></div>
+                                    <div class="text-center"><p class="text-[9px] font-black text-slate-300 uppercase">Yıl</p><p class="text-sm font-800">${ad.year}</p></div>
+                                </div>
+
+                                <div class="mt-auto">
+                                    <div class="flex justify-between items-center mb-4">
+                                        <span class="text-2xl font-900 text-black tracking-tighter">${Number(ad.price).toLocaleString()} ₺</span>
+                                        <button onclick="deleteAd(${index})" class="text-slate-200 hover:text-red-500 transition"><i class="fa-solid fa-trash-can"></i></button>
+                                    </div>
+                                    
+                                    ${hasExpert ? `
+                                    <a href="${ad.expertReport}" target="_blank" class="block w-full text-center bg-slate-100 hover:bg-green-600 hover:text-white text-slate-600 py-3 rounded-2xl text-xs font-900 transition-all uppercase tracking-widest">
+                                        <i class="fa-solid fa-file-pdf mr-1"></i> Raporu İncele
+                                    </a>` : `
+                                    <div class="block w-full text-center bg-slate-50 text-slate-300 py-3 rounded-2xl text-xs font-900 uppercase tracking-widest">
+                                        Rapor Mevcut Değil
+                                    </div>`}
                                 </div>
                             </div>
                         </div>
@@ -121,20 +176,25 @@
             const newAd = {
                 title: document.getElementById('title').value,
                 price: document.getElementById('price').value,
+                brand: document.getElementById('brand').value,
+                modelName: document.getElementById('modelName').value,
+                year: document.getElementById('year').value,
+                km: document.getElementById('km').value,
+                hp: document.getElementById('hp').value,
                 img: document.getElementById('img').value,
-                desc: document.getElementById('desc').value
+                expertReport: document.getElementById('expertReport').value
             };
             ads.unshift(newAd);
-            localStorage.setItem('emreGrgAds', JSON.stringify(ads));
+            localStorage.setItem('emreGrgPro', JSON.stringify(ads));
             e.target.reset();
             toggleModal();
             renderAds();
         });
 
         function deleteAd(index) {
-            if(confirm('İlan kaldırılsın mı?')) {
+            if(confirm('İlan vitrinden kaldırılsın mı?')) {
                 ads.splice(index, 1);
-                localStorage.setItem('emreGrgAds', JSON.stringify(ads));
+                localStorage.setItem('emreGrgPro', JSON.stringify(ads));
                 renderAds();
             }
         }
