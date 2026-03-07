@@ -16,6 +16,9 @@
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #F8FAFC; }
         .hidden { display: none !important; }
         .expert-badge { background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); }
+        /* Scrollbar Gizleme/İnceltme */
+        .custom-scroll::-webkit-scrollbar { width: 4px; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
     </style>
 </head>
 <body>
@@ -63,16 +66,40 @@
     </div>
 
     <div id="adModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[150] hidden flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-2xl rounded-[2.5rem] p-10 shadow-2xl max-h-[90vh] overflow-y-auto">
-            <h3 class="text-2xl font-900 mb-8 italic uppercase border-b pb-4 text-black text-center">Yeni İlan Ekle</h3>
+        <div class="bg-white w-full max-w-3xl rounded-[2.5rem] p-8 md:p-10 shadow-2xl max-h-[90vh] overflow-y-auto custom-scroll">
+            <h3 class="text-2xl font-900 mb-6 italic uppercase border-b pb-4 text-black text-center">Yeni İlan Ekle</h3>
             <form id="adForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <input type="text" id="title" placeholder="İlan Başlığı" class="md:col-span-2 bg-slate-50 p-4 rounded-2xl outline-none ring-1 ring-slate-200 focus:ring-black" required>
+                
+                <input type="text" id="title" placeholder="İlan Başlığı (Örn: Hatasız Çiziksiz M4)" class="md:col-span-2 bg-slate-50 p-4 rounded-2xl outline-none ring-1 ring-slate-200 focus:ring-black" required>
+                
+                <input type="text" id="brand" placeholder="Marka / Model (Örn: BMW M4)" class="bg-slate-50 p-4 rounded-2xl outline-none ring-1 ring-slate-200 focus:ring-black" required>
                 <input type="number" id="price" placeholder="Fiyat (TL)" class="bg-slate-50 p-4 rounded-2xl outline-none ring-1 ring-slate-200 focus:ring-black" required>
-                <input type="text" id="brand" placeholder="Marka / Model" class="bg-slate-50 p-4 rounded-2xl outline-none ring-1 ring-slate-200 focus:ring-black" required>
-                <input type="number" id="year" placeholder="Yıl" class="bg-slate-50 p-4 rounded-2xl outline-none ring-1 ring-slate-200 focus:ring-black" required>
-                <input type="text" id="img" placeholder="Araç Resim URL'si" class="md:col-span-2 bg-slate-50 p-4 rounded-2xl outline-none ring-1 ring-slate-200 focus:ring-black" required>
-                <button type="submit" class="md:col-span-2 bg-black text-white py-5 rounded-2xl font-800 uppercase tracking-widest mt-4 shadow-xl hover:bg-slate-900 transition">İlanı Yayınla</button>
-                <button type="button" onclick="toggleAd()" class="md:col-span-2 text-slate-400 font-bold text-[10px] uppercase text-center">Vazgeç</button>
+                
+                <input type="number" id="year" placeholder="Model Yılı" class="bg-slate-50 p-4 rounded-2xl outline-none ring-1 ring-slate-200 focus:ring-black" required>
+                <input type="number" id="km" placeholder="Kilometre" class="bg-slate-50 p-4 rounded-2xl outline-none ring-1 ring-slate-200 focus:ring-black" required>
+                
+                <select id="transmission" class="bg-slate-50 p-4 rounded-2xl outline-none ring-1 ring-slate-200 focus:ring-black text-slate-500 font-medium" required>
+                    <option value="" disabled selected>Vites Tipi</option>
+                    <option value="Otomatik">Otomatik</option>
+                    <option value="Yarı Otomatik">Yarı Otomatik</option>
+                    <option value="Manuel">Manuel</option>
+                </select>
+
+                <select id="fuel" class="bg-slate-50 p-4 rounded-2xl outline-none ring-1 ring-slate-200 focus:ring-black text-slate-500 font-medium" required>
+                    <option value="" disabled selected>Yakıt Tipi</option>
+                    <option value="Benzin">Benzin</option>
+                    <option value="Dizel">Dizel</option>
+                    <option value="Hibrit">Hibrit</option>
+                    <option value="Elektrik">Elektrik</option>
+                </select>
+
+                <input type="text" id="color" placeholder="Renk" class="bg-slate-50 p-4 rounded-2xl outline-none ring-1 ring-slate-200 focus:ring-black" required>
+                <input type="text" id="img" placeholder="Araç Resim URL'si" class="bg-slate-50 p-4 rounded-2xl outline-none ring-1 ring-slate-200 focus:ring-black" required>
+                
+                <textarea id="description" placeholder="Araç hakkında ekstra detaylar..." class="md:col-span-2 bg-slate-50 p-4 rounded-2xl outline-none ring-1 ring-slate-200 focus:ring-black h-24 resize-none"></textarea>
+
+                <button type="submit" class="md:col-span-2 bg-black text-white py-5 rounded-2xl font-800 uppercase tracking-widest mt-2 shadow-xl hover:bg-slate-900 transition">İlanı Yayınla</button>
+                <button type="button" onclick="toggleAd()" class="md:col-span-2 text-slate-400 font-bold text-[10px] uppercase text-center mt-1">Vazgeç</button>
             </form>
         </div>
     </div>
@@ -92,11 +119,9 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        // Modallar için kontrol
         function toggleAuth() { document.getElementById('authModal').classList.toggle('hidden'); }
         function toggleAd() { document.getElementById('adModal').classList.toggle('hidden'); }
 
-        // Giriş ve Kayıt İşlemleri
         function handleAuth(type) {
             const email = document.getElementById('email').value;
             const pass = document.getElementById('password').value;
@@ -116,7 +141,6 @@
 
         function logout() { auth.signOut(); }
 
-        // Kullanıcı Girişini İzle
         auth.onAuthStateChanged(user => {
             const guestMenu = document.getElementById('guestMenu');
             const userMenu = document.getElementById('userMenu');
@@ -131,7 +155,7 @@
             fetchAds(); 
         });
 
-        // Veritabanından İlanları Getir
+        // Veritabanından İlanları Getir (Yeni detaylarla birlikte)
         function fetchAds() {
             db.collection("ilanlar").orderBy("createdAt", "desc").onSnapshot(snapshot => {
                 const list = document.getElementById('ilanListesi');
@@ -144,16 +168,22 @@
 
                 snapshot.forEach(doc => {
                     const data = doc.data();
+                    
+                    // Eski eklenen ilanlarda "km", "transmission" verisi yoksa boş dönmemesi için küçük bir kontrol:
+                    const kmStr = data.km ? `${Number(data.km).toLocaleString()} KM` : '';
+                    const transStr = data.transmission ? `• ${data.transmission}` : '';
+
                     list.innerHTML += `
-                        <div class="bg-white rounded-[2.5rem] overflow-hidden shadow-sm border border-slate-100 p-2 group hover:shadow-2xl transition-all duration-500">
-                            <div class="relative h-56 overflow-hidden rounded-[2rem]">
+                        <div class="bg-white rounded-[2.5rem] overflow-hidden shadow-sm border border-slate-100 p-2 group hover:shadow-2xl transition-all duration-500 flex flex-col">
+                            <div class="relative h-56 overflow-hidden rounded-[2rem] shrink-0">
                                 <img src="${data.img}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
                                 <div class="absolute top-4 right-4 expert-badge text-white text-[10px] font-black px-3 py-1.5 rounded-full uppercase italic shadow-lg">Eksper Onaylı</div>
                             </div>
-                            <div class="p-6">
-                                <h3 class="font-800 text-xl text-black mb-1 uppercase italic tracking-tighter">${data.title}</h3>
-                                <p class="text-slate-400 text-xs font-bold uppercase mb-4">${data.brand} • ${data.year}</p>
-                                <div class="flex justify-between items-center border-t pt-4">
+                            <div class="p-6 flex flex-col grow">
+                                <h3 class="font-800 text-xl text-black mb-1 uppercase italic tracking-tighter line-clamp-1">${data.title}</h3>
+                                <p class="text-slate-400 text-[10px] tracking-wider font-bold uppercase mb-4">${data.brand} • ${data.year} ${kmStr ? '• ' + kmStr : ''} ${transStr}</p>
+                                
+                                <div class="mt-auto border-t pt-4 flex justify-between items-center">
                                     <span class="text-2xl font-900 text-black italic">₺${Number(data.price).toLocaleString()}</span>
                                     <button class="bg-slate-50 text-black px-4 py-2 rounded-xl font-bold text-xs uppercase hover:bg-black hover:text-white transition">İncele</button>
                                 </div>
@@ -164,7 +194,7 @@
             });
         }
 
-        // Yeni İlan Kaydet
+        // Yeni İlan Kaydet (Veritabanına tüm yeni detayları yolluyoruz)
         document.getElementById('adForm').onsubmit = (e) => {
             e.preventDefault();
             const newAd = {
@@ -172,12 +202,17 @@
                 price: document.getElementById('price').value,
                 brand: document.getElementById('brand').value,
                 year: document.getElementById('year').value,
+                km: document.getElementById('km').value,
+                transmission: document.getElementById('transmission').value,
+                fuel: document.getElementById('fuel').value,
+                color: document.getElementById('color').value,
+                description: document.getElementById('description').value,
                 img: document.getElementById('img').value,
                 createdAt: firebase.firestore.Timestamp.now()
             };
 
             db.collection("ilanlar").add(newAd).then(() => {
-                alert("İlan Yayına Alındı!");
+                alert("İlan Başarıyla Yayına Alındı!");
                 toggleAd();
                 document.getElementById('adForm').reset();
             }).catch(err => alert("Hata: " + err.message));
