@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EMRE GRG | Premium Chat & Marketplace</title>
+    <title>EMRE GRG | Premium Araç Platformu</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -12,10 +12,13 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
         body { font-family: 'Plus Jakarta Sans', sans-serif; letter-spacing: -0.02em; }
-        .chat-window { height: 400px; display: flex; flex-direction: column; }
-        .message-bubble { max-width: 80%; padding: 10px 15px; border-radius: 20px; margin-bottom: 8px; font-size: 14px; }
+        .expert-badge { background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); }
+        .chat-window { height: 350px; display: flex; flex-direction: column; }
+        .message-bubble { max-width: 80%; padding: 10px 15px; border-radius: 20px; margin-bottom: 8px; font-size: 13px; }
         .mine { background: #000; color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
         .theirs { background: #f1f5f9; color: #000; align-self: flex-start; border-bottom-left-radius: 4px; }
+        .custom-scroll::-webkit-scrollbar { width: 4px; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
     </style>
 </head>
 <body class="bg-[#F8FAFC]">
@@ -23,149 +26,90 @@
     <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200">
         <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-black rounded-xl flex items-center justify-center rotate-3 shadow-lg">
+                <div class="w-10 h-10 bg-black rounded-xl flex items-center justify-center rotate-3 shadow-lg shadow-black/20">
                     <span class="text-white font-black text-xl -rotate-3">E</span>
                 </div>
-                <h1 class="text-2xl font-800 tracking-tighter uppercase italic text-black">EMRE <span class="text-slate-400">GRG</span></h1>
+                <h1 class="text-2xl font-800 tracking-tighter uppercase italic">EMRE <span class="text-slate-400">GRG</span></h1>
             </div>
             
             <div id="navAuth" class="flex items-center gap-4">
-                <button onclick="toggleAuthModal()" id="loginBtn" class="text-slate-600 font-bold px-4 py-2 hover:text-black transition">Giriş</button>
-                <div id="userActions" class="hidden flex items-center gap-4">
-                    <button onclick="openChatList()" class="relative p-3 bg-slate-100 rounded-full hover:bg-slate-200 transition">
-                        <i class="fa-solid fa-comment-dots"></i>
-                        <span class="absolute top-0 right-0 w-3 h-3 bg-red-500 border-2 border-white rounded-full"></span>
-                    </button>
-                    <button onclick="toggleAdModal()" class="bg-black text-white px-6 py-2.5 rounded-2xl font-bold hover:bg-slate-800 transition">İlan Ver</button>
-                    <button onclick="logout()" class="text-slate-300 hover:text-red-500"><i class="fa-solid fa-power-off"></i></button>
+                <div id="guestMenu">
+                    <button onclick="toggleAuthModal()" class="text-slate-600 font-bold hover:text-black transition">Giriş Yap</button>
+                </div>
+                <div id="userMenu" class="hidden flex items-center gap-4">
+                    <button onclick="toggleAdModal()" class="bg-black text-white px-6 py-2.5 rounded-2xl font-bold shadow-xl shadow-black/10 hover:scale-105 transition">İlan Ver</button>
+                    <button onclick="logout()" class="text-slate-300 hover:text-red-500 transition"><i class="fa-solid fa-power-off"></i></button>
                 </div>
             </div>
         </div>
     </nav>
 
     <main class="max-w-7xl mx-auto px-6 py-12">
-        <div id="ilanListesi" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+        <div id="ilanListesi" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            </div>
     </main>
 
-    <div id="chatListModal" class="fixed inset-y-0 right-0 w-full max-w-sm bg-white shadow-2xl z-[300] hidden border-l border-slate-100 p-6 flex flex-col">
-        <div class="flex justify-between items-center mb-8">
-            <h2 class="text-xl font-900 italic uppercase">Mesajlarım</h2>
-            <button onclick="document.getElementById('chatListModal').classList.add('hidden')" class="text-slate-400 hover:text-black text-2xl">&times;</button>
-        </div>
-        <div id="activeChats" class="space-y-4 overflow-y-auto">
+    <div id="authModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[200] hidden flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-sm rounded-[3rem] p-10 text-center shadow-2xl">
+            <h2 class="text-2xl font-900 mb-6 italic uppercase">EMRE GRG PANEL</h2>
+            <div class="space-y-3">
+                <input type="email" id="email" placeholder="E-posta" class="w-full bg-slate-50 p-4 rounded-2xl outline-none focus:ring-1 focus:ring-black">
+                <input type="password" id="password" placeholder="Şifre" class="w-full bg-slate-50 p-4 rounded-2xl outline-none focus:ring-1 focus:ring-black">
+                <button onclick="handleAuth('login')" class="w-full bg-black text-white py-4 rounded-2xl font-800 uppercase mt-4">Giriş Yap</button>
+                <button onclick="handleAuth('register')" class="w-full text-slate-400 font-bold text-xs py-2 uppercase">Hesap Oluştur</button>
+                <button onclick="toggleAuthModal()" class="text-slate-300 text-[10px] mt-4">Vazgeç</button>
             </div>
+        </div>
     </div>
 
-    <div id="chatBox" class="fixed bottom-6 right-6 w-full max-w-sm bg-white rounded-[2rem] shadow-2xl z-[400] hidden flex flex-col border border-slate-100 overflow-hidden">
-        <div class="bg-black p-5 text-white flex justify-between items-center">
-            <div>
-                <p class="text-[10px] font-bold opacity-50 uppercase tracking-widest">Sohbet Ediliyor</p>
-                <h4 id="chatWithName" class="font-bold italic">Kullanıcı</h4>
-            </div>
+    <div id="adModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[150] hidden flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-2xl rounded-[3rem] p-10 shadow-2xl max-h-[90vh] overflow-y-auto custom-scroll">
+            <h3 class="text-2xl font-900 mb-8 italic uppercase border-b pb-4">Yeni İlan Kaydı</h3>
+            <form id="adForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <input type="text" id="title" placeholder="İlan Başlığı" class="md:col-span-2 bg-slate-50 p-4 rounded-2xl outline-none" required>
+                <input type="number" id="price" placeholder="Fiyat (TL)" class="bg-slate-50 p-4 rounded-2xl outline-none" required>
+                <input type="text" id="brand" placeholder="Marka" class="bg-slate-50 p-4 rounded-2xl outline-none" required>
+                <input type="number" id="year" placeholder="Yıl" class="bg-slate-50 p-4 rounded-2xl outline-none" required>
+                <input type="number" id="km" placeholder="Kilometre" class="bg-slate-50 p-4 rounded-2xl outline-none" required>
+                <input type="number" id="hp" placeholder="HP (Beygir)" class="bg-slate-50 p-4 rounded-2xl outline-none" required>
+                <input type="text" id="img" placeholder="Araç Görsel URL" class="md:col-span-2 bg-slate-50 p-4 rounded-2xl outline-none" required>
+                <button type="submit" class="md:col-span-2 bg-black text-white py-5 rounded-3xl font-800 uppercase tracking-widest mt-4">İlanı Paylaş</button>
+                <button type="button" onclick="toggleAdModal()" class="md:col-span-2 text-slate-400 text-sm">İptal</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="chatBox" class="fixed bottom-6 right-6 w-full max-w-sm bg-white rounded-[2rem] shadow-2xl z-[300] hidden flex flex-col border border-slate-100 overflow-hidden">
+        <div class="bg-black p-4 text-white flex justify-between items-center">
+            <h4 id="chatWithName" class="font-bold text-sm italic uppercase tracking-tighter">Sohbet</h4>
             <button onclick="document.getElementById('chatBox').classList.add('hidden')" class="text-white/50 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
         </div>
-        <div id="messageDisplay" class="chat-window p-4 overflow-y-auto custom-scroll bg-slate-50">
-            </div>
-        <div class="p-4 bg-white border-t border-slate-100 flex gap-2">
-            <input type="text" id="chatInput" placeholder="Mesajınızı yazın..." class="flex-grow bg-slate-100 p-3 rounded-xl text-sm outline-none focus:ring-1 focus:ring-black">
-            <button onclick="sendMessage()" class="bg-black text-white w-10 h-10 rounded-xl flex items-center justify-center hover:bg-slate-800"><i class="fa-solid fa-paper-plane text-xs"></i></button>
+        <div id="messageDisplay" class="chat-window p-4 overflow-y-auto custom-scroll bg-slate-50"></div>
+        <div class="p-4 bg-white flex gap-2 border-t">
+            <input type="text" id="chatInput" placeholder="Mesajınız..." class="flex-grow bg-slate-100 p-3 rounded-xl text-sm outline-none">
+            <button onclick="sendMessage()" class="bg-black text-white w-10 h-10 rounded-xl flex items-center justify-center"><i class="fa-solid fa-paper-plane text-xs"></i></button>
         </div>
     </div>
 
     <script>
-        // FIREBASE AYARLARI BURAYA
-        const firebaseConfig = { /* SENİN AYARLARIN */ };
+        // SENİN GÖNDERDİĞİN GÜNCEL AYARLAR
+        const firebaseConfig = {
+            apiKey: "AIzaSyDEVAVvSpcZUY_q01g4c91Ky1cNyTJiz3A",
+            authDomain: "emre-grg-eb1fe.firebaseapp.com",
+            projectId: "emre-grg-eb1fe",
+            storageBucket: "emre-grg-eb1fe.firebasestorage.app",
+            messagingSenderId: "366106095449",
+            appId: "1:366106095449:web:7f1029c55c0ecc7159e648"
+        };
+        
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        let user = null;
+        let currentUser = null;
         let activeRecipientId = null;
 
-        auth.onAuthStateChanged(u => {
-            user = u;
-            if(u) {
-                document.getElementById('loginBtn').classList.add('hidden');
-                document.getElementById('userActions').classList.remove('hidden');
-            } else {
-                document.getElementById('loginBtn').classList.remove('hidden');
-                document.getElementById('userActions').classList.add('hidden');
-            }
-            fetchAds();
-        });
-
-        // MESAJ GÖNDERME FONKSİYONU
-        async function startChat(recipientId, recipientName) {
-            if(!user) { toggleAuthModal(); return; }
-            if(user.uid === recipientId) { alert("Kendi ilanınıza mesaj atamazsınız."); return; }
-            
-            activeRecipientId = recipientId;
-            document.getElementById('chatWithName').innerText = recipientName;
-            document.getElementById('chatBox').classList.remove('hidden');
-            loadMessages();
-        }
-
-        async function sendMessage() {
-            const text = document.getElementById('chatInput').value;
-            if(!text || !activeRecipientId) return;
-
-            const chatID = [user.uid, activeRecipientId].sort().join('_');
-            await db.collection('messages').add({
-                chatID: chatID,
-                sender: user.uid,
-                text: text,
-                at: Date.now()
-            });
-
-            document.getElementById('chatInput').value = '';
-        }
-
-        function loadMessages() {
-            const chatID = [user.uid, activeRecipientId].sort().join('_');
-            db.collection('messages').where('chatID', '==', chatID).orderBy('at', 'asc')
-              .onSnapshot(snap => {
-                  const display = document.getElementById('messageDisplay');
-                  display.innerHTML = '';
-                  snap.forEach(doc => {
-                      const msg = doc.data();
-                      const type = msg.sender === user.uid ? 'mine' : 'theirs';
-                      display.innerHTML += `<div class="message-bubble ${type}">${msg.text}</div>`;
-                  });
-                  display.scrollTop = display.scrollHeight;
-              });
-        }
-
-        // İLANLARI LİSTELEME (SADECE MESAJ BUTONU EKLENDİ)
-        async function fetchAds() {
-            const snap = await db.collection('ads').orderBy('at', 'desc').get();
-            const list = document.getElementById('ilanListesi');
-            list.innerHTML = '';
-            
-            snap.forEach(doc => {
-                const ad = doc.data();
-                const isMine = user && user.uid === ad.owner;
-                list.innerHTML += `
-                    <div class="bg-white rounded-[2.5rem] border border-slate-100 overflow-hidden shadow-sm hover:shadow-xl transition-all">
-                        <img src="${ad.img}" class="w-full h-56 object-cover">
-                        <div class="p-6">
-                            <h3 class="font-800 text-lg mb-4 italic uppercase">${ad.title}</h3>
-                            <div class="flex justify-between items-center mt-6 pt-4 border-t">
-                                <span class="text-xl font-900">${Number(ad.price).toLocaleString()} ₺</span>
-                                ${!isMine ? `
-                                    <button onclick="startChat('${ad.owner}', 'Satıcı')" class="bg-slate-900 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-blue-600 transition">Mesaj Gönder</button>
-                                ` : `
-                                    <button onclick="deleteAd('${doc.id}')" class="text-red-400 text-xs font-bold">İlanımı Sil</button>
-                                `}
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-        }
-
-        // DİĞER FONKSİYONLAR (Login, Logout, İlan Ekleme...)
-        function logout() { auth.signOut(); location.reload(); }
-        function toggleAuthModal() { /* ... */ }
-    </script>
-</body>
-</html> 
+        // AUTH KONTROL
+        auth.onAuthStateChanged(user => {
+            currentUser = user;
+            if(user) {
