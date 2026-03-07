@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EMRE GRG | Premium Araç Platformu</title>
+    <title>EMRE GRG | Premium Galeri</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -11,14 +11,8 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; letter-spacing: -0.02em; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
         .expert-badge { background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); }
-        .chat-window { height: 350px; display: flex; flex-direction: column; }
-        .message-bubble { max-width: 80%; padding: 10px 15px; border-radius: 20px; margin-bottom: 8px; font-size: 13px; }
-        .mine { background: #000; color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
-        .theirs { background: #f1f5f9; color: #000; align-self: flex-start; border-bottom-left-radius: 4px; }
-        .custom-scroll::-webkit-scrollbar { width: 4px; }
-        .custom-scroll::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
     </style>
 </head>
 <body class="bg-[#F8FAFC]">
@@ -32,67 +26,56 @@
                 <h1 class="text-2xl font-800 tracking-tighter uppercase italic">EMRE <span class="text-slate-400">GRG</span></h1>
             </div>
             
-            <div id="navAuth" class="flex items-center gap-4">
+            <div id="navAuth">
                 <div id="guestMenu">
-                    <button onclick="toggleAuthModal()" class="text-slate-600 font-bold hover:text-black transition">Giriş Yap</button>
+                    <button onclick="toggleAuthModal()" class="bg-black text-white px-6 py-2.5 rounded-2xl font-bold hover:scale-105 transition">Giriş Yap</button>
                 </div>
                 <div id="userMenu" class="hidden flex items-center gap-4">
-                    <button onclick="toggleAdModal()" class="bg-black text-white px-6 py-2.5 rounded-2xl font-bold shadow-xl shadow-black/10 hover:scale-105 transition">İlan Ver</button>
-                    <button onclick="logout()" class="text-slate-300 hover:text-red-500 transition"><i class="fa-solid fa-power-off"></i></button>
+                    <button onclick="toggleAdModal()" class="bg-blue-600 text-white px-6 py-2.5 rounded-2xl font-bold">İlan Ver</button>
+                    <button onclick="logout()" class="text-red-500 font-bold ml-2">Çıkış</button>
                 </div>
             </div>
         </div>
     </nav>
 
     <main class="max-w-7xl mx-auto px-6 py-12">
-        <div id="ilanListesi" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            </div>
+        <div id="ilanListesi" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-center">
+            <p id="loading" class="col-span-full text-slate-400">Yükleniyor...</p>
+        </div>
     </main>
 
     <div id="authModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[200] hidden flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-sm rounded-[3rem] p-10 text-center shadow-2xl">
-            <h2 class="text-2xl font-900 mb-6 italic uppercase">EMRE GRG PANEL</h2>
-            <div class="space-y-3">
-                <input type="email" id="email" placeholder="E-posta" class="w-full bg-slate-50 p-4 rounded-2xl outline-none focus:ring-1 focus:ring-black">
-                <input type="password" id="password" placeholder="Şifre" class="w-full bg-slate-50 p-4 rounded-2xl outline-none focus:ring-1 focus:ring-black">
-                <button onclick="handleAuth('login')" class="w-full bg-black text-white py-4 rounded-2xl font-800 uppercase mt-4">Giriş Yap</button>
-                <button onclick="handleAuth('register')" class="w-full text-slate-400 font-bold text-xs py-2 uppercase">Hesap Oluştur</button>
-                <button onclick="toggleAuthModal()" class="text-slate-300 text-[10px] mt-4">Vazgeç</button>
+        <div class="bg-white w-full max-w-sm rounded-[2.5rem] p-8 shadow-2xl">
+            <h2 class="text-2xl font-900 mb-6 italic text-center">EMRE GRG</h2>
+            <div class="space-y-4">
+                <input type="email" id="email" placeholder="E-posta" class="w-full bg-slate-50 p-4 rounded-2xl ring-1 ring-slate-200 outline-none">
+                <input type="password" id="password" placeholder="Şifre" class="w-full bg-slate-50 p-4 rounded-2xl ring-1 ring-slate-200 outline-none">
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="handleAuth('login')" class="bg-black text-white py-4 rounded-2xl font-bold uppercase text-xs">Giriş</button>
+                    <button onclick="handleAuth('register')" class="bg-slate-100 text-slate-600 py-4 rounded-2xl font-bold uppercase text-xs">Kayıt Ol</button>
+                </div>
+                <button onclick="toggleAuthModal()" class="w-full text-slate-300 text-[10px] mt-2">KAPAT</button>
             </div>
         </div>
     </div>
 
     <div id="adModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[150] hidden flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-2xl rounded-[3rem] p-10 shadow-2xl max-h-[90vh] overflow-y-auto custom-scroll">
-            <h3 class="text-2xl font-900 mb-8 italic uppercase border-b pb-4">Yeni İlan Kaydı</h3>
+        <div class="bg-white w-full max-w-2xl rounded-[2.5rem] p-10 shadow-2xl">
+            <h3 class="text-2xl font-900 mb-8 italic uppercase border-b pb-4">İlan Ekle</h3>
             <form id="adForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <input type="text" id="title" placeholder="İlan Başlığı" class="md:col-span-2 bg-slate-50 p-4 rounded-2xl outline-none" required>
-                <input type="number" id="price" placeholder="Fiyat (TL)" class="bg-slate-50 p-4 rounded-2xl outline-none" required>
-                <input type="text" id="brand" placeholder="Marka" class="bg-slate-50 p-4 rounded-2xl outline-none" required>
-                <input type="number" id="year" placeholder="Yıl" class="bg-slate-50 p-4 rounded-2xl outline-none" required>
-                <input type="number" id="km" placeholder="Kilometre" class="bg-slate-50 p-4 rounded-2xl outline-none" required>
-                <input type="number" id="hp" placeholder="HP (Beygir)" class="bg-slate-50 p-4 rounded-2xl outline-none" required>
-                <input type="text" id="img" placeholder="Araç Görsel URL" class="md:col-span-2 bg-slate-50 p-4 rounded-2xl outline-none" required>
-                <button type="submit" class="md:col-span-2 bg-black text-white py-5 rounded-3xl font-800 uppercase tracking-widest mt-4">İlanı Paylaş</button>
-                <button type="button" onclick="toggleAdModal()" class="md:col-span-2 text-slate-400 text-sm">İptal</button>
+                <input type="text" id="title" placeholder="Başlık" class="md:col-span-2 bg-slate-50 p-4 rounded-2xl outline-none ring-1 ring-slate-200" required>
+                <input type="number" id="price" placeholder="Fiyat (TL)" class="bg-slate-50 p-4 rounded-2xl outline-none ring-1 ring-slate-200" required>
+                <input type="text" id="brand" placeholder="Marka" class="bg-slate-50 p-4 rounded-2xl outline-none ring-1 ring-slate-200" required>
+                <input type="number" id="year" placeholder="Yıl" class="bg-slate-50 p-4 rounded-2xl outline-none ring-1 ring-slate-200" required>
+                <input type="text" id="img" placeholder="Resim Linki" class="md:col-span-2 bg-slate-50 p-4 rounded-2xl outline-none ring-1 ring-slate-200" required>
+                <button type="submit" class="md:col-span-2 bg-black text-white py-5 rounded-2xl font-800 uppercase shadow-xl hover:bg-slate-900 transition">Yayınla</button>
+                <button type="button" onclick="toggleAdModal()" class="md:col-span-2 text-slate-400 font-bold text-xs uppercase">Vazgeç</button>
             </form>
         </div>
     </div>
 
-    <div id="chatBox" class="fixed bottom-6 right-6 w-full max-w-sm bg-white rounded-[2rem] shadow-2xl z-[300] hidden flex flex-col border border-slate-100 overflow-hidden">
-        <div class="bg-black p-4 text-white flex justify-between items-center">
-            <h4 id="chatWithName" class="font-bold text-sm italic uppercase tracking-tighter">Sohbet</h4>
-            <button onclick="document.getElementById('chatBox').classList.add('hidden')" class="text-white/50 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-        <div id="messageDisplay" class="chat-window p-4 overflow-y-auto custom-scroll bg-slate-50"></div>
-        <div class="p-4 bg-white flex gap-2 border-t">
-            <input type="text" id="chatInput" placeholder="Mesajınız..." class="flex-grow bg-slate-100 p-3 rounded-xl text-sm outline-none">
-            <button onclick="sendMessage()" class="bg-black text-white w-10 h-10 rounded-xl flex items-center justify-center"><i class="fa-solid fa-paper-plane text-xs"></i></button>
-        </div>
-    </div>
-
     <script>
-        // SENİN GÖNDERDİĞİN GÜNCEL AYARLAR
+        // FIREBASE AYARLARI
         const firebaseConfig = {
             apiKey: "AIzaSyDEVAVvSpcZUY_q01g4c91Ky1cNyTJiz3A",
             authDomain: "emre-grg-eb1fe.firebaseapp.com",
@@ -106,10 +89,83 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        let currentUser = null;
-        let activeRecipientId = null;
+        // MODAL FONKSİYONLARI (Hata buradaydı, artık tanımlı!)
+        function toggleAuthModal() {
+            document.getElementById('authModal').classList.toggle('hidden');
+        }
 
-        // AUTH KONTROL
+        function toggleAdModal() {
+            document.getElementById('adModal').classList.toggle('hidden');
+        }
+
+        // AUTH İŞLEMLERİ
+        function handleAuth(type) {
+            const email = document.getElementById('email').value;
+            const pass = document.getElementById('password').value;
+            if(!email || !pass) return alert("Bilgileri giriniz.");
+
+            if(type === 'register') {
+                auth.createUserWithEmailAndPassword(email, pass)
+                    .then(() => { alert("Kayıt Başarılı!"); toggleAuthModal(); })
+                    .catch(err => alert("Hata: " + err.message));
+            } else {
+                auth.signInWithEmailAndPassword(email, pass)
+                    .then(() => { toggleAuthModal(); })
+                    .catch(err => alert("Hata: " + err.message));
+            }
+        }
+
+        function logout() { auth.signOut(); }
+
         auth.onAuthStateChanged(user => {
-            currentUser = user;
             if(user) {
+                document.getElementById('guestMenu').classList.add('hidden');
+                document.getElementById('userMenu').classList.remove('hidden');
+            } else {
+                document.getElementById('guestMenu').classList.remove('hidden');
+                document.getElementById('userMenu').classList.add('hidden');
+            }
+            fetchAds();
+        });
+
+        // İLANLARI ÇEK
+        function fetchAds() {
+            db.collection("ilanlar").orderBy("createdAt", "desc").onSnapshot(snapshot => {
+                const list = document.getElementById('ilanListesi');
+                list.innerHTML = "";
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    list.innerHTML += `
+                        <div class="bg-white rounded-[2rem] overflow-hidden shadow-sm border border-slate-100 p-2">
+                            <img src="${data.img}" class="w-full h-48 object-cover rounded-[1.5rem]">
+                            <div class="p-6 text-left">
+                                <h3 class="font-bold text-lg">${data.title}</h3>
+                                <p class="text-slate-400 text-sm">${data.brand} • ${data.year}</p>
+                                <p class="text-xl font-black mt-2">₺${Number(data.price).toLocaleString()}</p>
+                            </div>
+                        </div>
+                    `;
+                });
+            });
+        }
+
+        // İLAN YAYINLA
+        document.getElementById('adForm').onsubmit = (e) => {
+            e.preventDefault();
+            const newAd = {
+                title: document.getElementById('title').value,
+                price: document.getElementById('price').value,
+                brand: document.getElementById('brand').value,
+                year: document.getElementById('year').value,
+                img: document.getElementById('img').value,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
+            db.collection("ilanlar").add(newAd).then(() => {
+                alert("İlan yüklendi!");
+                toggleAdModal();
+                document.getElementById('adForm').reset();
+            });
+        };
+    </script>
+</body>
+</html>
