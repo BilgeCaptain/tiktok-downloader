@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EMRE GRG | Elite Automotive v6</title>
+    <title>EMRE GRG | Elite Automotive v7</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
@@ -25,7 +24,6 @@
         .glass-panel { 
             background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
             backdrop-filter: blur(20px); 
-            -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.05); 
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
         }
@@ -41,186 +39,121 @@
             background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); 
             transition: all 0.3s ease;
         }
-        .btn-gradient:hover { 
-            box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.5); 
-            filter: brightness(1.1);
-        }
 
         .input-premium {
             background: rgba(0, 0, 0, 0.5);
             border: 1px solid rgba(255, 255, 255, 0.08);
             transition: all 0.3s ease;
         }
-        .input-premium:focus {
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
-            outline: none;
-        }
 
         .compare-bar { transform: translateY(150%); transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
         .compare-bar.active { transform: translateY(0); }
         
         .custom-scroll::-webkit-scrollbar { width: 6px; }
-        .custom-scroll::-webkit-scrollbar-track { background: #050505; }
         .custom-scroll::-webkit-scrollbar-thumb { background: #1f2937; border-radius: 10px; }
-        .custom-scroll::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
     </style>
 </head>
 <body class="custom-scroll">
 
     <nav class="sticky top-0 z-40 glass-panel border-b border-white/5 h-20 flex justify-center w-full">
         <div class="max-w-7xl w-full px-6 flex justify-between items-center">
-            <div class="flex items-center gap-4 group cursor-pointer">
-                <div class="w-10 h-10 bg-gradient-to-br from-white to-gray-400 rounded-xl flex items-center justify-center shadow-[0_0_15px_rgba(255,255,255,0.2)] group-hover:rotate-12 transition-all duration-500">
+            <div class="flex items-center gap-4 group cursor-pointer" onclick="location.reload()">
+                <div class="w-10 h-10 bg-gradient-to-br from-white to-gray-400 rounded-xl flex items-center justify-center group-hover:rotate-12 transition-all">
                     <span class="text-black font-black text-xl italic">E</span>
                 </div>
-                <h1 class="text-2xl font-900 tracking-tighter uppercase italic text-white">EMRE <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600">GRG</span></h1>
+                <h1 class="text-2xl font-900 tracking-tighter uppercase italic text-white">EMRE <span class="text-blue-500">GRG</span></h1>
             </div>
             <div class="flex items-center gap-4">
                 <div id="userMenu" class="hidden flex items-center gap-3">
-                    <button onclick="toggleAd()" class="btn-gradient px-6 py-2.5 rounded-full font-bold text-xs uppercase tracking-widest text-white shadow-lg"><i class="fa-solid fa-plus mr-2"></i> Yeni İlan</button>
-                    <button onclick="logout()" class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-500/10 transition-all"><i class="fa-solid fa-power-off"></i></button>
+                    <button onclick="toggleAd()" class="btn-gradient px-6 py-2.5 rounded-full font-bold text-xs uppercase tracking-widest text-white shadow-lg">Yeni İlan</button>
+                    <button onclick="logout()" class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-red-500 transition-all"><i class="fa-solid fa-power-off"></i></button>
                 </div>
-                <button id="guestBtn" onclick="toggleAuth()" class="bg-white text-black px-8 py-2.5 rounded-full font-black text-xs uppercase tracking-widest hover:bg-gray-200 transition-colors shadow-[0_0_20px_rgba(255,255,255,0.2)]">Giriş Yap</button>
+                <button id="guestBtn" onclick="toggleAuth()" class="bg-white text-black px-8 py-2.5 rounded-full font-black text-xs uppercase tracking-widest hover:bg-gray-200 shadow-xl transition-all">Giriş Yap</button>
             </div>
         </div>
     </nav>
 
-    <header class="max-w-7xl mx-auto px-6 pt-20 pb-10 text-center">
-        <h2 class="text-5xl md:text-7xl font-900 italic tracking-tighter mb-4">Mükemmeli <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600">Sür.</span></h2>
-        <p class="text-slate-400 text-sm md:text-base font-medium max-w-2xl mx-auto">Elite otomobil koleksiyonuna hoş geldiniz. Aradığınız lüks, performans ve konfor sadece bir tık uzağınızda.</p>
+    <header class="max-w-7xl mx-auto px-6 pt-16 pb-10 text-center">
+        <h2 class="text-5xl md:text-7xl font-900 italic tracking-tighter mb-4 uppercase">Elite <span class="text-blue-500">Showroom</span></h2>
+        <p class="text-slate-400 text-sm font-medium max-w-2xl mx-auto uppercase tracking-widest">Premium Otomobil Koleksiyonu</p>
     </header>
 
     <main class="max-w-7xl mx-auto px-6 pb-24 min-h-[50vh]">
-        <div id="ilanListesi" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div class="col-span-full flex justify-center py-20">
-                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
-            </div>
-        </div>
+        <div id="ilanListesi" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
     </main>
 
-    <div id="compareBar" class="compare-bar fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] glass-panel px-6 py-4 rounded-full flex items-center gap-6 border-blue-500/30 shadow-[0_10px_40px_rgba(59,130,246,0.2)]">
-        <div class="flex items-center gap-3">
-            <div id="compareSlots" class="flex gap-2"></div>
-            <p class="text-[10px] font-black uppercase tracking-widest text-slate-300 hidden sm:block">Kıyaslama</p>
-        </div>
-        <div class="h-6 w-[1px] bg-white/20"></div>
-        <div class="flex gap-3 items-center">
-            <button onclick="clearCompare()" class="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:text-red-400 hover:bg-red-400/10 transition-colors"><i class="fa-solid fa-trash-can"></i></button>
-            <button id="compareActionBtn" onclick="openCompareModal()" class="bg-white text-black px-6 py-2.5 rounded-full font-black text-[10px] uppercase tracking-widest transition-transform hover:scale-105">Kıyasla</button>
-        </div>
+    <div id="compareBar" class="compare-bar fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] glass-panel px-6 py-4 rounded-full flex items-center gap-6 border-blue-500/30">
+        <div id="compareSlots" class="flex gap-2"></div>
+        <button onclick="openCompareModal()" class="bg-white text-black px-6 py-2.5 rounded-full font-black text-[10px] uppercase tracking-widest">Kıyasla</button>
+        <button onclick="clearCompare()" class="text-red-400 text-xs font-bold uppercase ml-2">Temizle</button>
     </div>
 
-    <div id="authModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-[500] hidden flex items-center justify-center p-4 transition-opacity">
-        <div class="glass-panel w-full max-w-sm p-10 rounded-[2rem] text-center relative shadow-2xl">
-            <button onclick="toggleAuth()" class="absolute top-6 right-6 text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
-            <div class="w-16 h-16 bg-blue-500/10 rounded-full flex items-center justify-center mx-auto mb-6 text-blue-500 text-2xl">
-                <i class="fa-solid fa-user-shield"></i>
-            </div>
+    <div id="authModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-[500] hidden flex items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-sm p-10 rounded-[2rem] text-center">
             <h2 class="text-2xl font-900 uppercase mb-8 italic">Yetkili Girişi</h2>
-            <input type="email" id="authEmail" placeholder="E-posta Adresi" class="w-full input-premium p-4 rounded-xl mb-4 text-sm">
-            <input type="password" id="authPass" placeholder="Şifre" class="w-full input-premium p-4 rounded-xl mb-6 text-sm">
-            <button onclick="handleAuth('login')" class="w-full btn-gradient py-4 rounded-xl font-black uppercase tracking-widest text-xs mb-4">Giriş Yap</button>
-            <button onclick="handleAuth('register')" class="w-full bg-transparent border border-white/10 py-4 rounded-xl font-bold uppercase tracking-widest text-[10px] text-slate-300 hover:bg-white/5 transition-colors">Yeni Hesap Oluştur</button>
+            <input type="email" id="authEmail" placeholder="E-posta" class="w-full input-premium p-4 rounded-xl mb-4 text-sm text-white">
+            <input type="password" id="authPass" placeholder="Şifre" class="w-full input-premium p-4 rounded-xl mb-6 text-sm text-white">
+            <button onclick="handleAuth('login')" class="w-full btn-gradient py-4 rounded-xl font-black uppercase tracking-widest text-xs mb-2">Giriş Yap</button>
+            <button onclick="handleAuth('register')" class="w-full text-slate-500 text-[10px] uppercase font-bold mt-2">Hesap Oluştur</button>
+            <button onclick="toggleAuth()" class="mt-6 text-slate-400 text-xs">Kapat</button>
         </div>
     </div>
 
     <div id="adModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-[400] hidden flex items-center justify-center p-4">
-        <div class="glass-panel w-full max-w-3xl p-8 md:p-12 rounded-[2rem] max-h-[90vh] overflow-y-auto custom-scroll shadow-2xl relative">
-            <button onclick="toggleAd()" class="absolute top-8 right-8 text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-2xl"></i></button>
-            <h3 class="text-3xl font-900 italic uppercase mb-2 text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-500">Vitrine Ekle</h3>
-            <p class="text-slate-400 text-xs uppercase tracking-widest mb-8 font-bold">Araç teknik detayları</p>
-            
-            <form id="adForm" class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <input type="text" id="title" placeholder="İlan Başlığı (Örn: Hatasız M5 Competition)" class="md:col-span-2 input-premium p-4 rounded-xl text-sm" required>
-                <input type="text" id="brand" placeholder="Marka / Model (Örn: BMW M5)" class="input-premium p-4 rounded-xl text-sm" required>
-                <input type="number" id="price" placeholder="Fiyat (TL)" class="input-premium p-4 rounded-xl text-sm" required>
-                <input type="number" id="year" placeholder="Model Yılı (Örn: 2023)" class="input-premium p-4 rounded-xl text-sm" required>
-                <input type="number" id="km" placeholder="Kilometre" class="input-premium p-4 rounded-xl text-sm" required>
-                <select id="trans" class="input-premium p-4 rounded-xl text-sm text-slate-300 appearance-none">
-                    <option value="Otomatik">Otomatik Vites</option>
-                    <option value="Manuel">Manuel Vites</option>
+        <div class="glass-panel w-full max-w-2xl p-8 rounded-[2rem] max-h-[90vh] overflow-y-auto custom-scroll">
+            <h3 class="text-2xl font-900 italic uppercase mb-8 text-center">Yeni İlan Yayınla</h3>
+            <form id="adForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <input type="text" id="title" placeholder="İlan Başlığı" class="md:col-span-2 input-premium p-4 rounded-xl text-sm text-white" required>
+                <input type="text" id="brand" placeholder="Marka Model" class="input-premium p-4 rounded-xl text-sm text-white" required>
+                <input type="number" id="price" placeholder="Fiyat (TL)" class="input-premium p-4 rounded-xl text-sm text-white" required>
+                <input type="number" id="year" placeholder="Yıl" class="input-premium p-4 rounded-xl text-sm text-white" required>
+                <input type="number" id="km" placeholder="KM" class="input-premium p-4 rounded-xl text-sm text-white" required>
+                <select id="trans" class="input-premium p-4 rounded-xl text-sm text-white appearance-none">
+                    <option value="Otomatik">Otomatik</option>
+                    <option value="Manuel">Manuel</option>
                 </select>
-                <input type="text" id="phone" placeholder="WhatsApp (5xxxxxxxxx)" class="input-premium p-4 rounded-xl text-sm" required>
-                <input type="url" id="img" placeholder="Araç Yüksek Çözünürlüklü Görsel URL'si" class="md:col-span-2 input-premium p-4 rounded-xl text-sm" required>
+                <input type="text" id="phone" placeholder="WhatsApp (5xxxxxxxxx)" class="input-premium p-4 rounded-xl text-sm text-white" required>
                 
-                <div class="md:col-span-2 pt-4">
-                    <button type="submit" class="w-full btn-gradient py-5 rounded-xl font-black uppercase tracking-widest text-sm shadow-[0_0_30px_rgba(59,130,246,0.3)]">İlanı Yayına Al</button>
+                <div class="md:col-span-2 mt-2">
+                    <label class="text-[10px] text-slate-500 uppercase font-bold mb-2 block">Araç Fotoğrafı</label>
+                    <input type="file" id="imgFile" accept="image/*" class="hidden" onchange="previewImage(this)">
+                    <div onclick="document.getElementById('imgFile').click()" class="input-premium p-6 rounded-xl border-dashed border-2 border-white/10 flex flex-col items-center cursor-pointer">
+                        <i class="fa-solid fa-camera text-2xl mb-2 text-slate-500"></i>
+                        <span id="fileLabel" class="text-[10px] text-slate-400 uppercase font-bold">Galeriden Seç</span>
+                        <img id="imgPreview" class="hidden mt-4 h-24 rounded-lg border border-white/10">
+                    </div>
                 </div>
+
+                <button type="submit" class="md:col-span-2 btn-gradient py-5 rounded-xl font-black uppercase tracking-widest text-sm mt-4 shadow-xl">İlanı Yayına Al</button>
             </form>
+            <button onclick="toggleAd()" class="w-full mt-4 text-slate-500 text-xs">Vazgeç</button>
         </div>
     </div>
 
-    <div id="detailModal" class="fixed inset-0 bg-black/90 backdrop-blur-xl z-[300] hidden flex items-center justify-center p-4 md:p-10">
-        <div class="bg-[#0a0a0a] border border-white/10 w-full max-w-6xl h-full md:h-auto md:max-h-[85vh] rounded-[2rem] overflow-hidden flex flex-col md:flex-row relative shadow-2xl">
-            <button onclick="toggleDetail()" class="absolute top-6 left-6 z-10 w-12 h-12 bg-black/50 backdrop-blur-md rounded-full border border-white/10 flex items-center justify-center hover:bg-white hover:text-black transition-colors"><i class="fa-solid fa-arrow-left"></i></button>
-            
-            <div class="w-full md:w-[55%] h-64 md:h-full relative bg-black">
-                <img id="detailImg" class="w-full h-full object-cover opacity-90">
-                <div class="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent md:bg-gradient-to-r"></div>
-            </div>
-            
-            <div class="w-full md:w-[45%] p-8 md:p-12 overflow-y-auto custom-scroll flex flex-col justify-center">
-                <div class="inline-block px-3 py-1 bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[10px] font-bold uppercase tracking-widest rounded-full mb-4 w-fit" id="detailBrandBadge"></div>
-                <h2 id="detailTitle" class="text-3xl md:text-4xl font-900 italic uppercase mb-2 leading-tight"></h2>
-                <div id="detailPrice" class="text-3xl font-900 text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 mb-10 italic"></div>
-                
-                <div class="grid grid-cols-3 gap-3 mb-10">
-                    <div class="glass-panel p-4 rounded-2xl text-center">
-                        <i class="fa-regular fa-calendar text-slate-400 mb-2 text-lg"></i>
-                        <div class="text-[10px] text-slate-500 uppercase font-bold mb-1">Yıl</div>
-                        <div id="detailYear" class="font-black text-sm"></div>
-                    </div>
-                    <div class="glass-panel p-4 rounded-2xl text-center">
-                        <i class="fa-solid fa-gauge-high text-slate-400 mb-2 text-lg"></i>
-                        <div class="text-[10px] text-slate-500 uppercase font-bold mb-1">Kilometre</div>
-                        <div id="detailKm" class="font-black text-sm"></div>
-                    </div>
-                    <div class="glass-panel p-4 rounded-2xl text-center">
-                        <i class="fa-solid fa-gear text-slate-400 mb-2 text-lg"></i>
-                        <div class="text-[10px] text-slate-500 uppercase font-bold mb-1">Vites</div>
-                        <div id="detailTrans" class="font-black text-sm"></div>
-                    </div>
-                </div>
-
-                <div class="flex flex-col gap-3 mt-auto">
-                    <a id="whatsappBtn" target="_blank" class="w-full bg-[#25D366] hover:bg-[#1ebd5b] text-white py-4 rounded-xl font-black text-center uppercase tracking-widest text-xs transition-colors shadow-lg flex items-center justify-center gap-2">
-                        <i class="fa-brands fa-whatsapp text-lg"></i> Satıcıya Ulaş
-                    </a>
-                    <button onclick="handleCompareFromDetail()" id="detailCompareBtn" class="w-full glass-panel py-4 rounded-xl font-bold uppercase text-[10px] tracking-widest hover:border-blue-500/50 transition-colors flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-code-compare"></i> Kıyaslamaya Ekle
-                    </button>
-                </div>
+    <div id="detailModal" class="fixed inset-0 bg-black/95 backdrop-blur-xl z-[300] hidden flex items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-4xl rounded-[2.5rem] overflow-hidden flex flex-col md:flex-row relative">
+            <button onclick="toggleDetail()" class="absolute top-6 left-6 z-10 w-10 h-10 bg-black/50 rounded-full flex items-center justify-center border border-white/10"><i class="fa-solid fa-xmark"></i></button>
+            <img id="detailImg" class="w-full md:w-1/2 h-64 md:h-auto object-cover">
+            <div class="p-8 md:p-12 flex flex-col justify-center w-full">
+                <div id="detailBrand" class="text-blue-500 text-[10px] font-black uppercase tracking-[0.3em] mb-2"></div>
+                <h2 id="detailTitle" class="text-3xl font-900 uppercase italic mb-6"></h2>
+                <div id="detailSpecs" class="grid grid-cols-2 gap-4 mb-8"></div>
+                <div id="detailPrice" class="text-3xl font-900 mb-10 italic"></div>
+                <a id="whatsappBtn" target="_blank" class="w-full bg-[#25D366] text-white py-4 rounded-xl font-black text-center uppercase tracking-widest text-xs shadow-lg">WhatsApp İle Görüş</a>
             </div>
         </div>
     </div>
 
-    <div id="compareModal" class="fixed inset-0 bg-black/95 backdrop-blur-2xl z-[600] hidden flex items-center justify-center p-4">
-        <div class="w-full max-w-5xl relative">
-            <button onclick="closeCompareModal()" class="absolute -top-12 right-0 text-slate-400 hover:text-white flex items-center gap-2 font-bold uppercase text-xs tracking-widest"><i class="fa-solid fa-xmark text-xl"></i> Kapat</button>
-            <div class="glass-panel rounded-[2rem] overflow-hidden border border-white/10 shadow-2xl">
-                <div class="p-8 text-center border-b border-white/5 bg-white/[0.02]">
-                    <h2 class="text-3xl font-900 uppercase italic">Performans <span class="text-blue-500">Kıyaslaması</span></h2>
-                </div>
-                <div id="compareTable" class="grid grid-cols-3 gap-0 p-6 md:p-10 text-sm">
-                    </div>
-            </div>
+    <div id="compareModal" class="fixed inset-0 bg-black/98 backdrop-blur-2xl z-[600] hidden flex items-center justify-center p-4">
+        <div class="w-full max-w-4xl glass-panel p-8 rounded-[2.5rem] relative">
+            <button onclick="closeCompareModal()" class="absolute top-8 right-8 text-slate-400"><i class="fa-solid fa-xmark text-2xl"></i></button>
+            <h2 class="text-center text-2xl font-900 uppercase italic mb-10">Araç <span class="text-blue-500">Kıyasla</span></h2>
+            <div id="compareTable" class="grid grid-cols-3 gap-0 text-sm"></div>
         </div>
     </div>
-
-    <footer class="mt-20 border-t border-white/5 py-10 bg-black/50">
-        <div class="max-w-7xl mx-auto px-6 text-center flex flex-col items-center">
-            <div class="w-8 h-8 bg-white rounded-lg flex items-center justify-center rotate-3 mb-6 opacity-50">
-                <span class="text-black font-black text-sm italic">E</span>
-            </div>
-            <p class="text-[10px] text-slate-500 uppercase tracking-[0.2em] font-bold max-w-xl leading-relaxed">
-                © 2026 EMRE GRG Automotive | 5651 Sayılı Kanun Kapsamında "Yer Sağlayıcı" Olarak Hizmet Vermektedir.
-            </p>
-        </div>
-    </footer>
 
     <script>
-        // FIREBASE YAPILANDIRMASI
+        // 1. FIREBASE KONFİGÜRASYONU
         const firebaseConfig = {
             apiKey: "AIzaSyAriFPU7nXOkIbsHT6sN7G5agKwfMtFUH4",
             authDomain: "emre-grg.firebaseapp.com",
@@ -233,30 +166,41 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
 
+        // 2. DEĞİŞKENLER
         let allAds = [];
         let compareList = [];
-        let currentDetailId = null;
+        const IMGBB_API_KEY = "12001550003cbe1597edf776cd84e261";
 
-        // MODAL KONTROLLERİ
+        // 3. MODAL FONKSİYONLARI
         const toggleAuth = () => document.getElementById('authModal').classList.toggle('hidden');
         const toggleAd = () => document.getElementById('adModal').classList.toggle('hidden');
         const toggleDetail = () => document.getElementById('detailModal').classList.toggle('hidden');
         const closeCompareModal = () => document.getElementById('compareModal').classList.add('hidden');
 
-        // GİRİŞ & ÇIKIŞ
+        // 4. RESİM ÖNİZLEME
+        function previewImage(input) {
+            const preview = document.getElementById('imgPreview');
+            const label = document.getElementById('fileLabel');
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    preview.src = e.target.result;
+                    preview.classList.remove('hidden');
+                    label.innerText = input.files[0].name;
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // 5. GİRİŞ & ÇIKIŞ
         function handleAuth(type) {
             const email = document.getElementById('authEmail').value;
             const pass = document.getElementById('authPass').value;
-            if(!email || !pass) return alert("Lütfen tüm alanları doldurun.");
-            
+            if(!email || !pass) return alert("Bilgileri girin.");
             if(type === 'register') {
-                auth.createUserWithEmailAndPassword(email, pass)
-                    .then(() => { alert("Aramıza hoş geldin!"); toggleAuth(); })
-                    .catch(e => alert(e.message));
+                auth.createUserWithEmailAndPassword(email, pass).then(() => toggleAuth()).catch(e => alert(e.message));
             } else {
-                auth.signInWithEmailAndPassword(email, pass)
-                    .then(() => toggleAuth())
-                    .catch(e => alert("Giriş bilgileri hatalı."));
+                auth.signInWithEmailAndPassword(email, pass).then(() => toggleAuth()).catch(() => alert("Hata!"));
             }
         }
         function logout() { auth.signOut(); }
@@ -264,10 +208,10 @@
         auth.onAuthStateChanged(user => {
             document.getElementById('guestBtn').classList.toggle('hidden', !!user);
             document.getElementById('userMenu').classList.toggle('hidden', !user);
-            fetchAds(); // Kullanıcı değiştiğinde ilanları yeniden çek
+            fetchAds();
         });
 
-        // VERİ ÇEKME & LİSTELEME
+        // 6. VERİ ÇEKME & LİSTELEME
         function fetchAds() {
             db.collection("ilanlar").orderBy("createdAt", "desc").onSnapshot(snap => {
                 allAds = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
@@ -278,49 +222,22 @@
         function renderAds() {
             const list = document.getElementById('ilanListesi');
             list.innerHTML = "";
-            
-            if(allAds.length === 0) {
-                list.innerHTML = `
-                    <div class="col-span-full text-center py-32 glass-panel rounded-[2rem] border-dashed border-white/20">
-                        <i class="fa-solid fa-car-side text-4xl text-slate-600 mb-4 block"></i>
-                        <p class="text-slate-400 text-sm font-bold uppercase tracking-widest">Şu an vitrinde araç bulunmuyor</p>
-                    </div>`;
-                return;
-            }
-
             allAds.forEach(ad => {
                 const inCompare = compareList.includes(ad.id);
                 list.innerHTML += `
                     <div class="glass-panel rounded-[2rem] p-2 card-hover flex flex-col group cursor-pointer" onclick="showDetail('${ad.id}')">
-                        <div class="relative h-56 md:h-64 overflow-hidden rounded-[1.5rem] mb-4 bg-black">
-                            <img src="${ad.img}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90 group-hover:opacity-100">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-                            
-                            <div class="absolute top-4 left-4 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border border-white/10 text-white/90">
-                                ${ad.year}
-                            </div>
-                            
-                            <button onclick="toggleCompare(event, '${ad.id}')" class="absolute top-4 right-4 w-10 h-10 bg-black/50 backdrop-blur-md rounded-full border border-white/10 flex items-center justify-center transition-all hover:bg-blue-600 hover:border-blue-500 z-10 ${inCompare ? 'bg-blue-600 border-blue-500 text-white' : 'text-slate-300'}">
+                        <div class="relative h-56 overflow-hidden rounded-[1.5rem] mb-4 bg-black">
+                            <img src="${ad.img}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity">
+                            <button onclick="toggleCompare(event, '${ad.id}')" class="absolute top-4 right-4 w-10 h-10 bg-black/50 backdrop-blur-md rounded-full border border-white/10 flex items-center justify-center transition-all ${inCompare ? 'bg-blue-600 border-blue-500' : ''}">
                                 <i class="fa-solid fa-code-compare"></i>
                             </button>
-
-                            <div class="absolute bottom-4 left-4 flex gap-2">
-                                <span class="bg-white/10 backdrop-blur-md px-2 py-1 rounded-md text-[10px] font-bold text-white"><i class="fa-solid fa-gauge-high mr-1"></i>${Number(ad.km).toLocaleString()} km</span>
-                                <span class="bg-white/10 backdrop-blur-md px-2 py-1 rounded-md text-[10px] font-bold text-white"><i class="fa-solid fa-gear mr-1"></i>${ad.trans}</span>
-                            </div>
                         </div>
-                        
                         <div class="px-4 pb-4">
-                            <div class="text-[10px] text-blue-400 font-bold uppercase tracking-widest mb-1">${ad.brand}</div>
-                            <h3 class="font-900 text-lg md:text-xl text-white uppercase italic tracking-tighter mb-4 line-clamp-1">${ad.title}</h3>
-                            <div class="flex justify-between items-end">
-                                <div>
-                                    <span class="text-[10px] text-slate-500 uppercase font-bold block mb-1">Fiyat</span>
-                                    <span class="text-2xl font-900 text-white italic tracking-tight">₺${Number(ad.price).toLocaleString()}</span>
-                                </div>
-                                <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-colors">
-                                    <i class="fa-solid fa-arrow-right -rotate-45"></i>
-                                </div>
+                            <div class="text-[10px] text-blue-500 font-black uppercase mb-1">${ad.brand}</div>
+                            <h3 class="font-800 text-lg text-white uppercase italic line-clamp-1 mb-4">${ad.title}</h3>
+                            <div class="flex justify-between items-center">
+                                <span class="text-xl font-900 italic">₺${Number(ad.price).toLocaleString()}</span>
+                                <span class="text-[10px] bg-white/5 px-3 py-1 rounded-lg font-bold">${ad.year}</span>
                             </div>
                         </div>
                     </div>`;
@@ -328,134 +245,98 @@
             updateCompareBar();
         }
 
-        // DETAY GÖSTERİMİ
+        // 7. İLAN KAYDETME (ImgBB + Firebase)
+        document.getElementById('adForm').onsubmit = async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            const file = document.getElementById('imgFile').files[0];
+            if(!file) return alert("Resim seçilmedi!");
+
+            btn.innerText = "Yükleniyor...";
+            btn.disabled = true;
+
+            try {
+                // ImgBB Upload
+                const formData = new FormData();
+                formData.append("image", file);
+                const resp = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, { method: "POST", body: formData });
+                const res = await resp.json();
+
+                if(res.success) {
+                    await db.collection("ilanlar").add({
+                        title: document.getElementById('title').value,
+                        brand: document.getElementById('brand').value,
+                        price: Number(document.getElementById('price').value),
+                        year: Number(document.getElementById('year').value),
+                        km: Number(document.getElementById('km').value),
+                        trans: document.getElementById('trans').value,
+                        phone: document.getElementById('phone').value,
+                        img: res.data.url,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                    toggleAd();
+                    document.getElementById('adForm').reset();
+                    document.getElementById('imgPreview').classList.add('hidden');
+                }
+            } catch (err) { alert(err.message); }
+            finally { btn.innerText = "İlanı Yayına Al"; btn.disabled = false; }
+        };
+
+        // 8. DETAY & KIYASLAMA MANTIĞI
         function showDetail(id) {
-            currentDetailId = id;
             const ad = allAds.find(a => a.id === id);
-            
             document.getElementById('detailImg').src = ad.img;
-            document.getElementById('detailBrandBadge').innerText = ad.brand;
             document.getElementById('detailTitle').innerText = ad.title;
+            document.getElementById('detailBrand').innerText = ad.brand;
             document.getElementById('detailPrice').innerText = "₺" + Number(ad.price).toLocaleString();
-            
-            document.getElementById('detailYear').innerText = ad.year;
-            document.getElementById('detailKm').innerText = Number(ad.km).toLocaleString();
-            document.getElementById('detailTrans').innerText = ad.trans;
-            
-            // WhatsApp Linki Oluşturma (Numara formatını güvenli hale getirme)
+            document.getElementById('detailSpecs').innerHTML = `
+                <div class="bg-white/5 p-4 rounded-xl text-center"><div class="text-[9px] text-slate-500 font-bold uppercase">Yıl</div><div class="font-black">${ad.year}</div></div>
+                <div class="bg-white/5 p-4 rounded-xl text-center"><div class="text-[9px] text-slate-500 font-bold uppercase">Kilometre</div><div class="font-black">${Number(ad.km).toLocaleString()}</div></div>
+                <div class="bg-white/5 p-4 rounded-xl text-center"><div class="text-[9px] text-slate-500 font-bold uppercase">Vites</div><div class="font-black">${ad.trans}</div></div>
+                <div class="bg-white/5 p-4 rounded-xl text-center"><div class="text-[9px] text-slate-500 font-bold uppercase">Plaka</div><div class="font-black">TR</div></div>
+            `;
             let phone = ad.phone.replace(/\s+/g, '');
             if(!phone.startsWith('90')) phone = '90' + phone;
-            document.getElementById('whatsappBtn').href = `https://wa.me/${phone}?text=${encodeURIComponent(ad.title + " ilanı hakkında görüşmek istiyorum.")}`;
-            
-            const btn = document.getElementById('detailCompareBtn');
-            if(compareList.includes(id)) {
-                btn.innerHTML = `<i class="fa-solid fa-check text-green-400"></i> Kıyaslamada Eklendi`;
-                btn.classList.add('border-green-500/50', 'text-green-400');
-            } else {
-                btn.innerHTML = `<i class="fa-solid fa-code-compare"></i> Kıyaslamaya Ekle`;
-                btn.classList.remove('border-green-500/50', 'text-green-400');
-            }
-            
+            document.getElementById('whatsappBtn').href = `https://wa.me/${phone}`;
             toggleDetail();
         }
 
-        // KIYASLAMA FONKSİYONLARI
         function toggleCompare(e, id) {
-            if(e) e.stopPropagation();
-            const index = compareList.indexOf(id);
-            if(index > -1) {
-                compareList.splice(index, 1);
-            } else {
-                if(compareList.length >= 2) return alert("Aynı anda sadece 2 aracı kıyaslayabilirsiniz.");
-                compareList.push(id);
-            }
-            renderAds(); // Buton renklerini güncelle
-        }
-
-        function handleCompareFromDetail() {
-            toggleCompare(null, currentDetailId);
-            showDetail(currentDetailId); // Detay içindeki buton rengini yenile
+            e.stopPropagation();
+            const idx = compareList.indexOf(id);
+            if(idx > -1) compareList.splice(idx, 1);
+            else if(compareList.length < 2) compareList.push(id);
+            else return alert("Max 2 araç!");
+            renderAds();
         }
 
         function updateCompareBar() {
             const bar = document.getElementById('compareBar');
             bar.classList.toggle('active', compareList.length > 0);
-            
             document.getElementById('compareSlots').innerHTML = compareList.map(id => {
                 const ad = allAds.find(a => a.id === id);
-                return `<div class="w-10 h-10 rounded-full border-2 border-blue-500 p-[2px] bg-black"><img src="${ad.img}" class="w-full h-full rounded-full object-cover"></div>`;
+                return `<img src="${ad.img}" class="w-10 h-10 rounded-full border-2 border-blue-500 object-cover">`;
             }).join('');
         }
 
         function clearCompare() { compareList = []; renderAds(); }
 
         function openCompareModal() {
-            if(compareList.length < 2) return alert("Kıyaslama tablosu için lütfen 2. aracı seçin.");
-            const ad1 = allAds.find(a => a.id === compareList[0]);
-            const ad2 = allAds.find(a => a.id === compareList[1]);
-            const table = document.getElementById('compareTable');
+            if(compareList.length < 2) return alert("2 araç seçin.");
+            const a1 = allAds.find(a => a.id === compareList[0]);
+            const a2 = allAds.find(a => a.id === compareList[1]);
+            const row = (label, v1, v2) => `<div class="p-4 border-b border-white/5 text-slate-500 font-bold uppercase text-[9px] flex items-center">${label}</div><div class="p-4 border-b border-white/5 text-center font-black italic">${v1}</div><div class="p-4 border-b border-white/5 text-center font-black italic">${v2}</div>`;
             
-            const rowClass = "py-5 border-b border-white/5 flex items-center justify-center";
-            const labelClass = "py-5 border-b border-white/5 flex items-center text-[10px] uppercase tracking-widest font-bold text-slate-500 bg-white/[0.01] px-4 rounded-l-2xl";
-            const valClass = "font-black text-sm md:text-base italic text-white";
-            
-            table.innerHTML = `
-                <div class="${labelClass} h-32">Görsel</div>
-                <div class="${rowClass} h-32 px-2"><img src="${ad1.img}" class="w-full h-full object-cover rounded-xl border border-white/10"></div>
-                <div class="${rowClass} h-32 px-2"><img src="${ad2.img}" class="w-full h-full object-cover rounded-xl border border-white/10"></div>
-                
-                <div class="${labelClass}">Marka / Model</div>
-                <div class="${rowClass} ${valClass} text-blue-400">${ad1.brand}</div>
-                <div class="${rowClass} ${valClass} text-blue-400">${ad2.brand}</div>
-                
-                <div class="${labelClass}">Fiyat</div>
-                <div class="${rowClass} ${valClass}">₺${Number(ad1.price).toLocaleString()}</div>
-                <div class="${rowClass} ${valClass}">₺${Number(ad2.price).toLocaleString()}</div>
-                
-                <div class="${labelClass}">Model Yılı</div>
-                <div class="${rowClass} ${valClass}">${ad1.year}</div>
-                <div class="${rowClass} ${valClass}">${ad2.year}</div>
-                
-                <div class="${labelClass}">Kilometre</div>
-                <div class="${rowClass} ${valClass}">${Number(ad1.km).toLocaleString()}</div>
-                <div class="${rowClass} ${valClass}">${Number(ad2.km).toLocaleString()}</div>
-                
-                <div class="${labelClass} border-b-0 rounded-bl-2xl">Şanzıman</div>
-                <div class="${rowClass} border-b-0 ${valClass}">${ad1.trans}</div>
-                <div class="${rowClass} border-b-0 ${valClass}">${ad2.trans}</div>
+            document.getElementById('compareTable').innerHTML = `
+                <div class="p-4"></div><div class="p-2"><img src="${a1.img}" class="rounded-xl h-24 w-full object-cover"></div><div class="p-2"><img src="${a2.img}" class="rounded-xl h-24 w-full object-cover"></div>
+                ${row("Marka", a1.brand, a2.brand)}
+                ${row("Fiyat", "₺"+Number(a1.price).toLocaleString(), "₺"+Number(a2.price).toLocaleString())}
+                ${row("Yıl", a1.year, a2.year)}
+                ${row("KM", a1.km, a2.km)}
+                ${row("Şanzıman", a1.trans, a2.trans)}
             `;
             document.getElementById('compareModal').classList.remove('hidden');
         }
-
-        // İLAN KAYDETME (Ghost Data Çözümlü)
-        document.getElementById('adForm').onsubmit = (e) => {
-            e.preventDefault();
-            
-            const btn = e.target.querySelector('button[type="submit"]');
-            const originalText = btn.innerText;
-            btn.innerText = "Yükleniyor...";
-            btn.disabled = true;
-
-            db.collection("ilanlar").add({
-                title: document.getElementById('title').value,
-                brand: document.getElementById('brand').value,
-                price: Number(document.getElementById('price').value),
-                year: Number(document.getElementById('year').value),
-                km: Number(document.getElementById('km').value),
-                trans: document.getElementById('trans').value,
-                phone: document.getElementById('phone').value,
-                img: document.getElementById('img').value,
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            }).then(() => { 
-                toggleAd(); 
-                document.getElementById('adForm').reset(); 
-            }).catch((error) => {
-                alert("Veritabanı Kuralları hatası! Firebase'den ayarları yaptınız mı?\nDetay: " + error.message);
-            }).finally(() => {
-                btn.innerText = originalText;
-                btn.disabled = false;
-            });
-        };
     </script>
 </body>
 </html>
